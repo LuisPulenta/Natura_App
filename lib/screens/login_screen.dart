@@ -11,6 +11,7 @@ import 'package:natura_app/components/loader_component.dart';
 import 'package:natura_app/models/token.dart';
 import 'package:natura_app/models/user.dart';
 import 'package:natura_app/screens/home_screen.dart';
+import 'package:natura_app/screens/recover_password_screen.dart';
 import 'package:natura_app/screens/register_user_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 10,
                         ),
                         _showRememberme(),
+                        _showForgotPassword(),
                         _showButtons(),
                       ],
                     ),
@@ -178,6 +180,24 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       },
     );
+  }
+
+  Widget _showForgotPassword() {
+    return InkWell(
+      onTap: () => _goForgotPassword(),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: Text(
+          '¿Has olvidado tu contraseña?',
+          style: TextStyle(color: Colors.blue),
+        ),
+      ),
+    );
+  }
+
+  void _goForgotPassword() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => RecoverPasswordScreen()));
   }
 
   Widget _showButtons() {

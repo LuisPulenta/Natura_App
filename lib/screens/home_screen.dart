@@ -36,11 +36,56 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFfcbb04),
-      appBar: AppBar(
-        title: Text('Natura App'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Natura App'),
+      // ),
       body: _getBody(),
-      drawer: _getMenu(),
+      // drawer: _getMenu(),
+      persistentFooterButtons: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_on),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text('Editar Perfil'),
+                ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  return Color(0xFFfc6c0c);
+                }),
+              ),
+              onPressed: () => _editUser(),
+            ),
+            ElevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.logout),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text('Salir'),
+                ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  return Color(0xFFe4540c);
+                }),
+              ),
+              onPressed: () => _logOut(),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -91,57 +136,57 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _getMenu() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(child: Image(image: AssetImage('assets/logo.png'))),
-          ListTile(
-            leading: Icon(Icons.location_on),
-            title: Text('Direcciones'),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DireccionScreen(
-                            token: widget.token,
-                            user: widget.token.user,
-                          )));
-            },
-          ),
-          Divider(
-            color: Colors.black,
-            height: 2,
-          ),
-          ListTile(
-            leading: Icon(Icons.face),
-            title: Text('Editar perfil'),
-            onTap: () async {
-              String? result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => UserScreen(
-                            token: widget.token,
-                            user: _user,
-                            myProfile: true,
-                          )));
-              if (result == 'yes') {
-                _getUser();
-              }
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Cerrar Sesión'),
-            onTap: () {
-              _logOut();
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _getMenu() {
+  //   return Drawer(
+  //     child: ListView(
+  //       padding: EdgeInsets.zero,
+  //       children: <Widget>[
+  //         DrawerHeader(child: Image(image: AssetImage('assets/logo.png'))),
+  //         ListTile(
+  //           leading: Icon(Icons.location_on),
+  //           title: Text('Direcciones'),
+  //           onTap: () {
+  //             Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                     builder: (context) => DireccionScreen(
+  //                           token: widget.token,
+  //                           user: widget.token.user,
+  //                         )));
+  //           },
+  //         ),
+  //         Divider(
+  //           color: Colors.black,
+  //           height: 2,
+  //         ),
+  //         ListTile(
+  //           leading: Icon(Icons.face),
+  //           title: Text('Editar perfil'),
+  //           onTap: () async {
+  //             String? result = await Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                     builder: (context) => UserScreen(
+  //                           token: widget.token,
+  //                           user: _user,
+  //                           myProfile: true,
+  //                         )));
+  //             if (result == 'yes') {
+  //               _getUser();
+  //             }
+  //           },
+  //         ),
+  //         ListTile(
+  //           leading: Icon(Icons.logout),
+  //           title: Text('Cerrar Sesión'),
+  //           onTap: () {
+  //             _logOut();
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void _logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -191,5 +236,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _user = response.result;
     });
+  }
+
+  _editUser() async {
+    String? result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => UserScreen(
+                  token: widget.token,
+                  user: _user,
+                  myProfile: true,
+                )));
+    if (result == 'yes') {
+      _getUser();
+    }
   }
 }

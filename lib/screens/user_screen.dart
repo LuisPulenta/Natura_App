@@ -14,6 +14,7 @@ import 'package:natura_app/models/user.dart';
 import 'package:natura_app/models/response.dart';
 import 'package:natura_app/models/token.dart';
 import 'package:natura_app/screens/change_password_screen.dart';
+import 'package:natura_app/screens/direccion_screen.dart';
 import 'package:natura_app/screens/take_picture_screen.dart';
 
 class UserScreen extends StatefulWidget {
@@ -31,7 +32,9 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   bool _showLoader = false;
   bool _photoChanged = false;
+  int _option = 0;
   late XFile _image;
+  late User _user;
 
   String _firstName = '';
   String _firstNameError = '';
@@ -76,6 +79,7 @@ class _UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
+    _user = widget.user;
     _loadFieldValues();
   }
 
@@ -84,8 +88,7 @@ class _UserScreenState extends State<UserScreen> {
     return Scaffold(
         backgroundColor: Color(0xFFFFFFCC),
         appBar: AppBar(
-          title: Text(
-              widget.user.id.isEmpty ? 'Nuevo Usuario' : widget.user.fullName),
+          title: Text(_user.id.isEmpty ? 'Nuevo Usuario' : _user.fullName),
         ),
         body: Stack(
           children: [
@@ -121,7 +124,7 @@ class _UserScreenState extends State<UserScreen> {
     return Stack(children: <Widget>[
       Container(
         margin: EdgeInsets.only(top: 10),
-        child: widget.user.id.isEmpty && !_photoChanged
+        child: _user.id.isEmpty && !_photoChanged
             ? Image(
                 image: AssetImage('assets/nouser.png'),
                 width: 160,
@@ -133,7 +136,7 @@ class _UserScreenState extends State<UserScreen> {
                     ? Image.file(File(_image.path),
                         width: 160, height: 160, fit: BoxFit.cover)
                     : CachedNetworkImage(
-                        imageUrl: widget.user.imageFullPath,
+                        imageUrl: _user.imageFullPath,
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         fit: BoxFit.cover,
                         height: 160,
@@ -239,6 +242,7 @@ class _UserScreenState extends State<UserScreen> {
         decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
+            enabled: false,
             hintText: 'Ingresa documento...',
             labelText: 'Documento',
             errorText: _documentShowError ? _documentError : null,
@@ -255,21 +259,40 @@ class _UserScreenState extends State<UserScreen> {
   Widget _showAddress1() {
     return Container(
       padding: EdgeInsets.all(10),
-      child: TextField(
-        controller: _address1Controller,
-        keyboardType: TextInputType.streetAddress,
-        decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintText: 'Ingresa dirección...',
-            labelText: 'Dirección',
-            errorText: _address1ShowError ? _address1Error : null,
-            suffixIcon: Icon(Icons.home),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-        onChanged: (value) {
-          _address1 = value;
-        },
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _address1Controller,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'Ingresa dirección...',
+                  labelText: 'Dirección 1',
+                  errorText: _address1ShowError ? _address1Error : null,
+                  suffixIcon: Icon(Icons.home),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              onChanged: (value) {
+                _address1 = value;
+              },
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          IconButton(
+              onPressed: () {
+                _option = 1;
+                _address();
+              },
+              color: Colors.red,
+              icon: Icon(Icons.location_on, size: 40)),
+          SizedBox(
+            width: 10,
+          ),
+        ],
       ),
     );
   }
@@ -277,21 +300,40 @@ class _UserScreenState extends State<UserScreen> {
   Widget _showAddress2() {
     return Container(
       padding: EdgeInsets.all(10),
-      child: TextField(
-        controller: _address2Controller,
-        keyboardType: TextInputType.streetAddress,
-        decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintText: 'Ingresa dirección...',
-            labelText: 'Dirección',
-            errorText: _address2ShowError ? _address2Error : null,
-            suffixIcon: Icon(Icons.home),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-        onChanged: (value) {
-          _address2 = value;
-        },
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _address2Controller,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'Ingresa dirección...',
+                  labelText: 'Dirección 2',
+                  errorText: _address2ShowError ? _address2Error : null,
+                  suffixIcon: Icon(Icons.home),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              onChanged: (value) {
+                _address2 = value;
+              },
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          IconButton(
+              onPressed: () {
+                _option = 2;
+                _address();
+              },
+              color: Colors.red,
+              icon: Icon(Icons.location_on, size: 40)),
+          SizedBox(
+            width: 10,
+          ),
+        ],
       ),
     );
   }
@@ -299,21 +341,40 @@ class _UserScreenState extends State<UserScreen> {
   Widget _showAddress3() {
     return Container(
       padding: EdgeInsets.all(10),
-      child: TextField(
-        controller: _address3Controller,
-        keyboardType: TextInputType.streetAddress,
-        decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintText: 'Ingresa dirección...',
-            labelText: 'Dirección',
-            errorText: _address3ShowError ? _address3Error : null,
-            suffixIcon: Icon(Icons.home),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-        onChanged: (value) {
-          _address3 = value;
-        },
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _address3Controller,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: 'Ingresa dirección...',
+                  labelText: 'Dirección 3',
+                  errorText: _address3ShowError ? _address3Error : null,
+                  suffixIcon: Icon(Icons.home),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              onChanged: (value) {
+                _address3 = value;
+              },
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          IconButton(
+              onPressed: () {
+                _option = 3;
+                _address();
+              },
+              color: Colors.red,
+              icon: Icon(Icons.location_on, size: 40)),
+          SizedBox(
+            width: 10,
+          ),
+        ],
       ),
     );
   }
@@ -322,12 +383,13 @@ class _UserScreenState extends State<UserScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        enabled: widget.user.id.isEmpty,
+        enabled: _user.id.isEmpty,
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
+            enabled: false,
             hintText: 'Ingresa Email...',
             labelText: 'Email',
             errorText: _emailShowError ? _emailError : null,
@@ -390,12 +452,12 @@ class _UserScreenState extends State<UserScreen> {
               onPressed: () => _save(),
             ),
           ),
-          widget.user.id.isEmpty
+          _user.id.isEmpty
               ? Container()
               : SizedBox(
                   width: 20,
                 ),
-          widget.user.id.isEmpty
+          _user.id.isEmpty
               ? Container()
               : widget.myProfile
                   ? Expanded(
@@ -451,7 +513,7 @@ class _UserScreenState extends State<UserScreen> {
     if (!validateFields()) {
       return;
     }
-    widget.user.id.isEmpty ? _addRecord() : _saveRecord();
+    _user.id.isEmpty ? _addRecord() : _saveRecord();
   }
 
   bool validateFields() {
@@ -471,50 +533,6 @@ class _UserScreenState extends State<UserScreen> {
       _lastNameError = 'Debes ingresar un apellido';
     } else {
       _lastNameShowError = false;
-    }
-
-    if (_document.isEmpty) {
-      isValid = false;
-      _documentShowError = true;
-      _documentError = 'Debes ingresar un documento';
-    } else {
-      _documentShowError = false;
-    }
-
-    if (_address1.isEmpty) {
-      isValid = false;
-      _address1ShowError = true;
-      _address1Error = 'Debes ingresar una dirección';
-    } else {
-      _address1ShowError = false;
-    }
-
-    if (_address2.isEmpty) {
-      isValid = false;
-      _address2ShowError = true;
-      _address2Error = 'Debes ingresar una dirección';
-    } else {
-      _address2ShowError = false;
-    }
-
-    if (_address3.isEmpty) {
-      isValid = false;
-      _address3ShowError = true;
-      _address3Error = 'Debes ingresar una dirección';
-    } else {
-      _address3ShowError = false;
-    }
-
-    if (_email.isEmpty) {
-      isValid = false;
-      _emailShowError = true;
-      _emailError = 'Debes ingresar tu Email';
-    } else if (!EmailValidator.validate(_email)) {
-      isValid = false;
-      _emailShowError = true;
-      _emailError = 'Debes ingresar un Email válido';
-    } else {
-      _emailShowError = false;
     }
 
     if (_phoneNumber.isEmpty) {
@@ -545,9 +563,9 @@ class _UserScreenState extends State<UserScreen> {
       'firstName': _firstName,
       'lastName': _lastName,
       'document': _document,
-      'address': _address1,
-      'address': _address2,
-      'address': _address3,
+      'address1': _address1,
+      'address2': _address2,
+      'address3': _address3,
       'email': _email,
       'userName': _email,
       'phoneNumber': _phoneNumber,
@@ -590,9 +608,9 @@ class _UserScreenState extends State<UserScreen> {
       'firstName': _firstName,
       'lastName': _lastName,
       'document': _document,
-      'address': _address1,
-      'address': _address2,
-      'address': _address3,
+      'address1': _address1,
+      'address2': _address2,
+      'address3': _address3,
       'email': _email,
       'userName': _email,
       'phoneNumber': _phoneNumber,
@@ -615,8 +633,8 @@ class _UserScreenState extends State<UserScreen> {
       return;
     }
 
-    Response response = await ApiHelper.put(
-        '/api/Users/', widget.user.id, request, widget.token);
+    Response response =
+        await ApiHelper.put('/api/Users/', _user.id, request, widget.token);
 
     setState(() {
       _showLoader = false;
@@ -671,7 +689,7 @@ class _UserScreenState extends State<UserScreen> {
     }
 
     Response response =
-        await ApiHelper.delete('/api/Users/', widget.user.id, widget.token);
+        await ApiHelper.delete('/api/Users/', _user.id, widget.token);
 
     setState(() {
       _showLoader = false;
@@ -739,26 +757,26 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _loadFieldValues() {
-    _firstName = widget.user.firstName;
+    _firstName = _user.firstName;
     _firstNameController.text = _firstName;
 
-    _lastName = widget.user.lastName;
+    _lastName = _user.lastName;
     _lastNameController.text = _lastName;
 
-    _document = widget.user.document;
+    _document = _user.document;
     _documentController.text = _document;
 
-    _address1 = widget.user.address1;
-    _address2 = widget.user.address2;
-    _address3 = widget.user.address3;
+    _address1 = _user.address1!;
+    _address2 = _user.address2!;
+    _address3 = _user.address3!;
     _address1Controller.text = _address1;
     _address2Controller.text = _address2;
     _address3Controller.text = _address3;
 
-    _email = widget.user.email;
+    _email = _user.email;
     _emailController.text = _email;
 
-    _phoneNumber = widget.user.phoneNumber;
+    _phoneNumber = _user.phoneNumber;
     _phoneNumberController.text = _phoneNumber;
   }
 
@@ -769,5 +787,64 @@ class _UserScreenState extends State<UserScreen> {
             builder: (context) => ChangePasswordScreen(
                   token: widget.token,
                 )));
+  }
+
+  void _address() async {
+    String? result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DireccionScreen(
+                  token: widget.token,
+                  user: _user,
+                  option: _option,
+                )));
+    if (result == 'yes') {
+      _getUser();
+    }
+  }
+
+  Future<Null> _getUser() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Verifica que estés conectado a Internet',
+          actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      return;
+    }
+
+    Response response = await ApiHelper.getUser(widget.token, _user.id);
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      return;
+    }
+    setState(() {
+      _user = response.result;
+      _address1Controller.text = _user.address1.toString();
+      _address2Controller.text = _user.address2.toString();
+      _address3Controller.text = _user.address3.toString();
+    });
   }
 }
