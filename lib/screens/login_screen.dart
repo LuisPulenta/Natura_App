@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         _showEmail(),
                         _showPassword(),
                         SizedBox(
-                          height: 11,
+                          height: 10,
                         ),
                         _showRememberme(),
                         _showForgotPassword(),
