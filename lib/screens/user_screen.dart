@@ -7,6 +7,8 @@ import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:natura_app/components/loader_component.dart';
 import 'package:natura_app/helpers/api_helper.dart';
@@ -32,6 +34,7 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   bool _showLoader = false;
   bool _photoChanged = false;
+  bool _habilitaPosicion = false;
   int _option = 0;
   late XFile _image;
   late User _user;
@@ -76,6 +79,17 @@ class _UserScreenState extends State<UserScreen> {
   bool _phoneNumberShowError = false;
   TextEditingController _phoneNumberController = TextEditingController();
 
+  String _direccion = '';
+  Position _positionUser = Position(
+      longitude: 0,
+      latitude: 0,
+      timestamp: null,
+      accuracy: 0,
+      altitude: 0,
+      heading: 0,
+      speed: 0,
+      speedAccuracy: 0);
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +122,9 @@ class _UserScreenState extends State<UserScreen> {
                   _showEmail(),
                   _showPhoneNumber(),
                   _showButtons(),
+                  SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ),
@@ -443,11 +460,12 @@ class _UserScreenState extends State<UserScreen> {
                   Text('Guardar'),
                 ],
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  return Color(0xFF120E43);
-                }),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF120E43),
+                minimumSize: Size(100, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               onPressed: () => _save(),
             ),
@@ -472,12 +490,12 @@ class _UserScreenState extends State<UserScreen> {
                             Text('Contraseña'),
                           ],
                         ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                            return Color(0xFFB4161B);
-                          }),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFFB4161B),
+                          minimumSize: Size(100, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
                         onPressed: () => _changePassword(),
                       ),
@@ -790,17 +808,121 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _address() async {
-    String? result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DireccionScreen(
+    await _getPosition();
+
+    if (_habilitaPosicion) {
+      String? result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DireccionScreen(
                   token: widget.token,
                   user: _user,
                   option: _option,
-                )));
-    if (result == 'yes') {
-      _getUser();
+                  positionUser: _positionUser,
+                  direccionUser: _direccion)));
+      if (result == 'yes') {
+        _getUser();
+      }
     }
+  }
+
+  Future _getPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    // if (!serviceEnabled == false) {
+    //   showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           shape: RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.circular(10),
+    //           ),
+    //           title: Text('Aviso'),
+    //           content:
+    //               Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+    //             Text('El permiso de localización está deshabilitado.'),
+    //             SizedBox(
+    //               height: 10,
+    //             ),
+    //           ]),
+    //           actions: <Widget>[
+    //             TextButton(
+    //                 onPressed: () => Navigator.of(context).pop(),
+    //                 child: Text('Ok')),
+    //           ],
+    //         );
+    //       });
+    //   return;
+    // }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                title: Text('Aviso'),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Text('El permiso de localización está negado.'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ]),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text('Ok')),
+                ],
+              );
+            });
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: Text('Aviso'),
+              content:
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                Text(
+                    'El permiso de localización está negado permanentemente. No se puede requerir este permiso.'),
+                SizedBox(
+                  height: 10,
+                ),
+              ]),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('Ok')),
+              ],
+            );
+          });
+      return;
+    }
+
+    _habilitaPosicion = true;
+    _positionUser = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        _positionUser.latitude, _positionUser.longitude);
+    _direccion = placemarks[0].street.toString() +
+        " - " +
+        placemarks[0].locality.toString();
   }
 
   Future<Null> _getUser() async {

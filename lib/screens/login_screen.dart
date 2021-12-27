@@ -23,11 +23,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _email = 'messi@yopmail.com';
+  String _email = '';
   String _emailError = '';
   bool _emailShowError = false;
 
-  String _password = '123456';
+  String _password = '';
   String _passwordError = '';
   bool _passwordShowError = false;
 
@@ -218,11 +218,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text('Login'),
                 ],
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  return Color(0xFFe4540c);
-                }),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFFe4540c),
+                minimumSize: Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               onPressed: () => _login(),
             ),
@@ -242,11 +243,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text('Registrarse'),
                 ],
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  return Color(0xFFf4ab04);
-                }),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFFf4ab04),
+                minimumSize: Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               onPressed: () => _register(),
             ),

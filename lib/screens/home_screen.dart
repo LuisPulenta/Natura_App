@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // drawer: _getMenu(),
       persistentFooterButtons: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
               child: Row(
@@ -56,11 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('Editar Perfil'),
                 ],
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  return Color(0xFFfc6c0c);
-                }),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFFfc6c0c),
+                minimumSize: Size(100, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               onPressed: () => _editUser(),
             ),
@@ -75,11 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('Salir'),
                 ],
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  return Color(0xFFe4540c);
-                }),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFFe4540c),
+                minimumSize: Size(100, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               onPressed: () => _logOut(),
             ),
@@ -135,58 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // Widget _getMenu() {
-  //   return Drawer(
-  //     child: ListView(
-  //       padding: EdgeInsets.zero,
-  //       children: <Widget>[
-  //         DrawerHeader(child: Image(image: AssetImage('assets/logo.png'))),
-  //         ListTile(
-  //           leading: Icon(Icons.location_on),
-  //           title: Text('Direcciones'),
-  //           onTap: () {
-  //             Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                     builder: (context) => DireccionScreen(
-  //                           token: widget.token,
-  //                           user: widget.token.user,
-  //                         )));
-  //           },
-  //         ),
-  //         Divider(
-  //           color: Colors.black,
-  //           height: 2,
-  //         ),
-  //         ListTile(
-  //           leading: Icon(Icons.face),
-  //           title: Text('Editar perfil'),
-  //           onTap: () async {
-  //             String? result = await Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                     builder: (context) => UserScreen(
-  //                           token: widget.token,
-  //                           user: _user,
-  //                           myProfile: true,
-  //                         )));
-  //             if (result == 'yes') {
-  //               _getUser();
-  //             }
-  //           },
-  //         ),
-  //         ListTile(
-  //           leading: Icon(Icons.logout),
-  //           title: Text('Cerrar Sesión'),
-  //           onTap: () {
-  //             _logOut();
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   void _logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

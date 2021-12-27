@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.natura_app"
+    package="com.luisnu.natura_app"
     android:versionCode="1"
     android:versionName="1.0.0" > <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
     <uses-sdk
@@ -30,7 +30,7 @@
             android:value="AIzaSyAtxvXVhbzV9OTwZh8UxVsW2A58WYf-Btc" />
 
         <activity
-            android:name="com.example.natura_app.MainActivity"
+            android:name="com.luisnu.natura_app.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
@@ -73,7 +73,7 @@
 
         <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-            android:authorities="com.example.natura_app.flutter.image_provider"
+            android:authorities="com.luisnu.natura_app.flutter.image_provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

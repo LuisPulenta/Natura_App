@@ -35,11 +35,11 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\Luis\.gr
 MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\Luis\.gradle\caches\transforms-2\files-2.1\5f606c30f064eed94124828de37fadc0\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Luis\.gradle\caches\transforms-2\files-2.1\96aee308bccd03bc62c306516c23a410\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\Luis\.gradle\caches\transforms-2\files-2.1\15792e6083b2b5b5a7ffa285d47daa24\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
-INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml:1:1-8:12
+INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml:1:1-8:12
+INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml:1:1-8:12
 	package
-		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:2:5-37
+		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:2:5-36
 		INJECTED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml
 		INJECTED from F:\Flutter\natura_app\android\app\src\debug\AndroidManifest.xml
 	android:versionName
@@ -84,7 +84,7 @@ ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:7:10-8
 		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:8:16-71
 	android:name
 		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:7:21-70
-activity#com.example.natura_app.MainActivity
+activity#com.luisnu.natura_app.MainActivity
 ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:10:9-38:20
 	android:launchMode
 		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:12:13-43
@@ -136,6 +136,8 @@ MERGED from [com.google.android.gms:play-services-maps:17.0.0] C:\Users\Luis\.gr
 		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:45:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
 ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:46:5-79
+MERGED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:46:5-79
+MERGED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:46:5-79
 	android:name
 		ADDED from F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:46:22-76
 uses-sdk

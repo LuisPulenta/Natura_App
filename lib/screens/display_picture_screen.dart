@@ -33,12 +33,12 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                   Expanded(
                     child: ElevatedButton(
                       child: Text('Usar Foto'),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                          return Color(0xFF120E43);
-                        }),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xFF120E43),
+                        minimumSize: Size(100, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
                       onPressed: () {
                         Response response =
@@ -53,12 +53,12 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                   Expanded(
                     child: ElevatedButton(
                       child: Text('Volver a tomar'),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                          return Color(0xFFE03B8B);
-                        }),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xFFE03B8B),
+                        minimumSize: Size(100, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
                       onPressed: () {
                         Navigator.pop(context);

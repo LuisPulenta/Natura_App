@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.natura_app"
+3    package="com.luisnu.natura_app"
 4    android:versionCode="1"
 5    android:versionName="1.0.0" > <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
 6    <uses-sdk
@@ -51,7 +51,7 @@
 31
 32        <activity
 32-->F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:10:9-38:20
-33            android:name="com.example.natura_app.MainActivity"
+33            android:name="com.luisnu.natura_app.MainActivity"
 33-->F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:11:13-41
 34            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
 34-->F:\Flutter\natura_app\android\app\src\main\AndroidManifest.xml:14:13-163
@@ -116,7 +116,7 @@
 74-->[:image_picker] F:\Flutter\natura_app\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-16:20
 75            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
 75-->[:image_picker] F:\Flutter\natura_app\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-82
-76            android:authorities="com.example.natura_app.flutter.image_provider"
+76            android:authorities="com.luisnu.natura_app.flutter.image_provider"
 76-->[:image_picker] F:\Flutter\natura_app\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-74
 77            android:exported="false"
 77-->[:image_picker] F:\Flutter\natura_app\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-37

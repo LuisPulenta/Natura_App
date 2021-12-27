@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.natura_app">
+    package="com.luisnu.natura_app">
    <application
         android:label="natura_app"
         android:icon="@mipmap/launcher_icon">

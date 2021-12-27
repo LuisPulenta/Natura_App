@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.natura_app",
+  "applicationId": "com.luisnu.natura_app",
   "variantName": "processDebugResources",
   "elements": [
     {

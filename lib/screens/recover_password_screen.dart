@@ -81,11 +81,12 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
     return Expanded(
       child: ElevatedButton(
         child: Text('Recuperar Contraseña'),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-            return Color(0xFF120E43);
-          }),
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xFF120E43),
+          minimumSize: Size(double.infinity, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
         ),
         onPressed: () => _recoverPassword(),
       ),

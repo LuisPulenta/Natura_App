@@ -105,6 +105,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   _showPassword(),
                   _showConfirm(),
                   _showButtons(),
+                  SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ),
@@ -222,6 +225,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       padding: EdgeInsets.all(10),
       child: TextField(
         controller: _documentController,
+        keyboardType: TextInputType.number,
         decoration: InputDecoration(
             hintText: 'Ingresa documento...',
             labelText: 'Documento',
@@ -409,18 +413,36 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   void _takePicture() async {
     WidgetsFlutterBinding.ensureInitialized();
     final cameras = await availableCameras();
-    final firstCamera = cameras.first;
-    Response? response = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TakePictureScreen(
-                  camera: firstCamera,
-                )));
-    if (response != null) {
-      setState(() {
-        _photoChanged = true;
-        _image = response.result;
-      });
+    var firstCamera = cameras.first;
+    var response1 = await showAlertDialog(
+        context: context,
+        title: 'Seleccionar cámara',
+        message: '¿Qué cámara desea utilizar?',
+        actions: <AlertDialogAction>[
+          AlertDialogAction(key: 'no', label: 'Trasera'),
+          AlertDialogAction(key: 'yes', label: 'Delantera'),
+          AlertDialogAction(key: 'cancel', label: 'Cancelar'),
+        ]);
+    if (response1 == 'yes') {
+      firstCamera = cameras.first;
+    }
+    if (response1 == 'no') {
+      firstCamera = cameras.last;
+    }
+
+    if (response1 != 'cancel') {
+      Response? response = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TakePictureScreen(
+                    camera: firstCamera,
+                  )));
+      if (response != null) {
+        setState(() {
+          _photoChanged = true;
+          _image = response.result;
+        });
+      }
     }
   }
 
@@ -448,11 +470,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
             Text('Registrar usuario'),
           ],
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-            return Color(0xFF120E43);
-          }),
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xFF120E43),
+          minimumSize: Size(double.infinity, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
         ),
         onPressed: () => _register(),
       ),
@@ -491,6 +514,18 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       _documentError = 'Debes ingresar un documento';
     } else {
       _documentShowError = false;
+    }
+
+    if (_document.length < 6) {
+      isValid = false;
+      _documentShowError = true;
+      _documentError = 'El documento debe tener al menos 6 dìgitos';
+    }
+
+    if (_document.length > 9) {
+      isValid = false;
+      _documentShowError = true;
+      _documentError = 'El documento no puede tener más de 9 dìgitos';
     }
 
     if (_email.isEmpty) {
@@ -624,7 +659,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         actions: <AlertDialogAction>[
           AlertDialogAction(key: null, label: 'Aceptar'),
         ]);
-    return;
 
     Navigator.pop(context, 'yes');
   }

@@ -15,8 +15,15 @@ class DireccionScreen extends StatefulWidget {
   final Token token;
   final User user;
   final int option;
+  final Position positionUser;
+  final String direccionUser;
+
   const DireccionScreen(
-      {required this.token, required this.user, required this.option});
+      {required this.token,
+      required this.user,
+      required this.option,
+      required this.positionUser,
+      required this.direccionUser});
 
   @override
   _DireccionScreenState createState() => _DireccionScreenState();
@@ -27,13 +34,13 @@ class _DireccionScreenState extends State<DireccionScreen> {
   String _direccionError = '';
   bool _direccionShowError = false;
   TextEditingController _direccionController = TextEditingController();
-
+  bool ubicOk = false;
   double latitud = 0;
   double longitud = 0;
-  String direccion = '';
   bool _showLoader = false;
   final Set<Marker> _markers = {};
   MapType _defaultMapType = MapType.normal;
+  String direccion = '';
   Position position = Position(
       longitude: 0,
       latitude: 0,
@@ -44,7 +51,7 @@ class _DireccionScreenState extends State<DireccionScreen> {
       speed: 0,
       speedAccuracy: 0);
   CameraPosition _initialPosition =
-      CameraPosition(target: LatLng(-31.4332373, -64.226344), zoom: 16.0);
+      CameraPosition(target: LatLng(31, 64), zoom: 16.0);
   //static const LatLng _center = const LatLng(-31.4332373, -64.226344);
 
   LatLng _center = LatLng(0, 0);
@@ -55,10 +62,11 @@ class _DireccionScreenState extends State<DireccionScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getPosition().then((value) => {
-          _center = LatLng(position.latitude, position.longitude),
-          _initialPosition = CameraPosition(target: _center, zoom: 16.0)
-        });
+    _initialPosition = CameraPosition(
+        target:
+            LatLng(widget.positionUser.latitude, widget.positionUser.longitude),
+        zoom: 16.0);
+    ubicOk = true;
   }
 
   Future _getPosition() async {
@@ -79,58 +87,69 @@ class _DireccionScreenState extends State<DireccionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Dirección"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              setState(() {});
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
-          Container(
-            child: Stack(children: <Widget>[
-              GoogleMap(
-                myLocationEnabled: false,
-                initialCameraPosition: _initialPosition,
-                onCameraMove: _onCameraMove,
-                markers: _markers,
-                mapType: _defaultMapType,
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 80, right: 10),
-                alignment: Alignment.topRight,
-                child: Column(children: <Widget>[
-                  FloatingActionButton(
-                      child: Icon(Icons.layers),
-                      elevation: 5,
-                      backgroundColor: Color(0xfff4ab04),
-                      onPressed: () {
-                        _changeMapType();
-                      }),
-                ]),
-              ),
-              Center(
-                child: Icon(
-                  Icons.my_location,
-                  color: Color(0xFFfc6c0c),
-                  size: 50,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextField(
-                  controller: _direccionController,
-                  decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: 'Dirección...',
-                      labelText: 'Dirección',
-                      errorText: _direccionShowError ? _direccionError : null,
-                      prefixIcon: Icon(Icons.home),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  onChanged: (value) {
-                    _direccion = value;
-                  },
-                ),
-              ),
-            ]),
-          ),
+          ubicOk == true
+              ? Container(
+                  child: Stack(children: <Widget>[
+                    GoogleMap(
+                      myLocationEnabled: false,
+                      initialCameraPosition: _initialPosition,
+                      onCameraMove: _onCameraMove,
+                      markers: _markers,
+                      mapType: _defaultMapType,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 80, right: 10),
+                      alignment: Alignment.topRight,
+                      child: Column(children: <Widget>[
+                        FloatingActionButton(
+                            child: Icon(Icons.layers),
+                            elevation: 5,
+                            backgroundColor: Color(0xfff4ab04),
+                            onPressed: () {
+                              _changeMapType();
+                            }),
+                      ]),
+                    ),
+                    Center(
+                      child: Icon(
+                        Icons.my_location,
+                        color: Color(0xFFfc6c0c),
+                        size: 50,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: TextField(
+                        controller: _direccionController,
+                        decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: 'Dirección...',
+                            labelText: 'Dirección',
+                            errorText:
+                                _direccionShowError ? _direccionError : null,
+                            prefixIcon: Icon(Icons.home),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onChanged: (value) {
+                          _direccion = value;
+                        },
+                      ),
+                    ),
+                  ]),
+                )
+              : Container(),
           _showLoader
               ? LoaderComponent(
                   text: 'Por favor espere...',
