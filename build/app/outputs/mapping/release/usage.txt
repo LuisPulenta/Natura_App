@@ -414,8 +414,8 @@ com.google.common.util.concurrent.AbstractFuture:
     protected boolean setFuture(com.google.common.util.concurrent.ListenableFuture)
     final void maybePropagateCancellationTo(java.util.concurrent.Future)
     private static final long SPIN_THRESHOLD_NANOS
-org.checkerframework.checker.nullness.compatqual.NonNullDecl
 javax.annotation.WillNotClose
+org.checkerframework.checker.nullness.compatqual.NonNullDecl
 io.flutter.plugins.pathprovider.BuildConfig
 com.google.common.util.concurrent.TimeoutFuture$1
 org.checkerframework.checker.nullness.compatqual.PolyNullType
@@ -4928,8 +4928,8 @@ com.google.common.util.concurrent.Striped$5
 androidx.savedstate.R
 com.google.common.collect.MapMakerInternalMap$StrongKeyDummyValueEntry
 androidx.annotation.GuardedBy
-kotlin.jvm.KotlinReflectionNotSupportedError
 kotlin.ranges.ULongProgressionIterator
+kotlin.jvm.KotlinReflectionNotSupportedError
 androidx.core.R$integer
 com.google.android.gms.base.R$id
 kotlin.jvm.JvmSuppressWildcards
@@ -8393,7 +8393,7 @@ com.google.android.gms.common.stats.ConnectionTracker:
     private final java.util.List zzfe
     private final java.util.List zzff
     private static boolean zzfb
+androidx.lifecycle.DefaultLifecycleObserver$-CC
 io.flutter.plugin.platform.PlatformView$-CC:
     public static void $default$onInputConnectionLocked(io.flutter.plugin.platform.PlatformView)
     public static void $default$onInputConnectionUnlocked(io.flutter.plugin.platform.PlatformView)
-androidx.lifecycle.DefaultLifecycleObserver$-CC
