@@ -98,6 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 20,
+            ),
             Image(
               image: AssetImage('assets/logo.png'),
               width: 250,

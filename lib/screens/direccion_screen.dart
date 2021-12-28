@@ -67,6 +67,8 @@ class _DireccionScreenState extends State<DireccionScreen> {
             LatLng(widget.positionUser.latitude, widget.positionUser.longitude),
         zoom: 16.0);
     ubicOk = true;
+    _center =
+        LatLng(widget.positionUser.latitude, widget.positionUser.longitude);
   }
 
   Future _getPosition() async {
@@ -87,14 +89,6 @@ class _DireccionScreenState extends State<DireccionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Dirección"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              setState(() {});
-            },
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -229,6 +223,7 @@ class _DireccionScreenState extends State<DireccionScreen> {
       ),
       icon: BitmapDescriptor.defaultMarker,
     ));
+    var a = placemarks[0];
     setState(() {});
   }
 
@@ -247,6 +242,18 @@ class _DireccionScreenState extends State<DireccionScreen> {
           context: context,
           title: 'Error',
           message: "Debe marcar un lugar",
+          actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      return;
+    }
+
+    if (latitud == 0 || longitud == 0) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message:
+              "La latitud o la longitud del punto marcado están en cero. Intente marcar de nuevo.",
           actions: <AlertDialogAction>[
             AlertDialogAction(key: null, label: 'Aceptar'),
           ]);
