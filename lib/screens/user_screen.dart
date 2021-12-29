@@ -79,6 +79,13 @@ class _UserScreenState extends State<UserScreen> {
   bool _phoneNumberShowError = false;
   TextEditingController _phoneNumberController = TextEditingController();
 
+  double _latitude1 = 0.0;
+  double _longitude1 = 0.0;
+  double _latitude2 = 0.0;
+  double _longitude2 = 0.0;
+  double _latitude3 = 0.0;
+  double _longitude3 = 0.0;
+
   String _direccion = '';
   Position _positionUser = Position(
       longitude: 0,
@@ -626,9 +633,15 @@ class _UserScreenState extends State<UserScreen> {
       'firstName': _firstName,
       'lastName': _lastName,
       'document': _document,
-      'address1': _address1,
-      'address2': _address2,
+      'address1': _user.address1,
+      'latitude1': _user.latitude1,
+      'longitude1': _user.longitude1,
+      'address2': _user.address2,
+      'latitude2': _user.latitude2,
+      'longitude2': _user.longitude2,
       'address3': _address3,
+      'latitude3': _user.latitude3,
+      'longitude3': _user.longitude3,
       'email': _email,
       'userName': _email,
       'phoneNumber': _phoneNumber,
