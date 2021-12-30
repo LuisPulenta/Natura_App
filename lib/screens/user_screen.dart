@@ -639,7 +639,7 @@ class _UserScreenState extends State<UserScreen> {
       'address2': _user.address2,
       'latitude2': _user.latitude2,
       'longitude2': _user.longitude2,
-      'address3': _address3,
+      'address3': _user.address3,
       'latitude3': _user.latitude3,
       'longitude3': _user.longitude3,
       'email': _email,
