@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:natura_app/components/loader_component.dart';
 
 import 'package:natura_app/helpers/api_helper.dart';
+import 'package:natura_app/helpers/constants.dart';
 import 'package:natura_app/models/response.dart';
 import 'package:natura_app/screens/take_picture_screen.dart';
 
@@ -621,6 +622,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     }
 
     Map<String, dynamic> request = {
+      'modulo': Constants.Modulo,
       'firstName': _firstName,
       'lastName': _lastName,
       'document': _document,
