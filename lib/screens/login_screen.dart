@@ -10,6 +10,7 @@ import 'package:natura_app/models/response.dart';
 import 'package:natura_app/components/loader_component.dart';
 import 'package:natura_app/models/token.dart';
 import 'package:natura_app/models/user.dart';
+import 'package:natura_app/models/user2.dart';
 import 'package:natura_app/screens/home_screen.dart';
 import 'package:natura_app/screens/recover_password_screen.dart';
 import 'package:natura_app/screens/register_user_screen.dart';
@@ -291,6 +292,52 @@ class _LoginScreenState extends State<LoginScreen> {
       'userName': _email,
       'password': _password,
     };
+
+    Map<String, dynamic> request2 = {
+      'email': _email,
+    };
+
+    var url2 = Uri.parse('${Constants.apiUrl}/Api/Account/GetUserByEmail');
+    var response2 = await http.post(
+      url2,
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+      },
+      body: jsonEncode(request2),
+    );
+
+    if (response2.statusCode >= 400) {
+      setState(() {
+        _passwordShowError = true;
+        _passwordError = 'Email o contraseña incorrectos';
+      });
+
+      setState(() {
+        _showLoader = false;
+      });
+
+      return;
+    }
+
+    var body2 = response2.body;
+    var decodedJson2 = jsonDecode(body2);
+    var user2 = User2.fromJson(decodedJson2);
+
+    if (!user2.emailConfirmed) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message:
+              'Esta cuenta no ha sido confirmada. Por favor verifique su Email para confirmar la cuenta e intente nuevamente.',
+          actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      setState(() {
+        _showLoader = false;
+      });
+      return;
+    }
 
     var url = Uri.parse('${Constants.apiUrl}/api/Account/CreateToken');
     var response = await http.post(
