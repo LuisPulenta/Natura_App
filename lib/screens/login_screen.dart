@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 200,
               )),
           Transform.translate(
-            offset: Offset(0, 160),
+            offset: Offset(0, 180),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
